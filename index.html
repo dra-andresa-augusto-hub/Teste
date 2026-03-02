@@ -825,11 +825,11 @@ th{background:#f7fafc;font-weight:bold;color:#2d3748}
       <div class="form-group">
         <label>Presença</label>
         <select id="apptAttendance">
-          <option value="">Presente</option>
+          <option value="present">Presente</option>
           <option value="absent_justified">Faltou com justificativa</option>
           <option value="absent_unjustified">Faltou sem justificativa</option>
         </select>
-        <p style="font-size:12px;color:#718096;margin-top:5px">⚠️ Justificada | 1X Sem justificativa (aparece na agenda)</p>
+        <p style="font-size:12px;color:#718096;margin-top:5px">Ass. ✅ Presente | ⚠️ Justificada | ❌ Sem justificativa (aparece na agenda)</p>
       </div>
       <div class="whatsapp-actions" id="whatsappActionsContainer" style="display:none">
         <button class="btn btn-whatsapp" onclick="sendWhatsAppCharge()">📱 Cobrança</button>
@@ -3184,8 +3184,10 @@ function getTherapistColor(userId) {
 
 function getAttendanceBadge(appt) {
   if (!appt) return '';
+  // Presença é apenas visual na agenda (não interfere no financeiro/fluxo de caixa)
+  if (!appt.attendanceStatus || appt.attendanceStatus === 'present') return '<span class="attendance-icon" title="Presente">Ass. ✅</span>';
   if (appt.attendanceStatus === 'absent_justified') return '<span class="attendance-icon" title="Faltou com justificativa">⚠️</span>';
-  if (appt.attendanceStatus === 'absent_unjustified') return '<span class="attendance-icon" title="Faltou sem justificativa">1X</span>';
+  if (appt.attendanceStatus === 'absent_unjustified') return '<span class="attendance-icon" title="Faltou sem justificativa">❌</span>';
   return '';
 }
 
